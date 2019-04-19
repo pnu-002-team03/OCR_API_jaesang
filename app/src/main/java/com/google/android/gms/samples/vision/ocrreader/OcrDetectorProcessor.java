@@ -20,13 +20,25 @@ import android.util.SparseArray;
 
 import com.google.android.gms.samples.vision.ocrreader.ui.camera.GraphicOverlay;
 import com.google.android.gms.vision.Detector;
+import com.google.android.gms.vision.text.Text;
 import com.google.android.gms.vision.text.TextBlock;
 
 /**
  * A very simple Processor which gets detected TextBlocks and adds them to the overlay
  * as OcrGraphics.
+ * TODO: Make this implement Detector.Processor<TextBlock> and add text to the GraphicOverlay
  */
+
+        // 여기까지 앱이 TextRecognizer의 detect 메서드를 사용해 개별 프레임에 있는 문자를 확인할 수 있었다.
+        // 만약 다른 이미지파일이나 사진에서 텍스트를 찾기 원한다면 그렇게 하면 된다.
+        // 그러나 카메라에서 바로 텍스트를 읽기 원한다면 Processor를 실행해야 한다.
+        // Processor는 사용가능 할때마다 탐색을 처리할 것이다.
 public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
+
+    // 인터페이스가 두가지 메서드를 implement 시키도록 한다.
+    // 첫째는 receiveDetections이다. 이는 사용가능하면 TextRecognizer로부터 TextBlcok을 받는 것이다.
+    // 둘째는 release이다. TextRecognizer가 처리되면 자원을 없앨 것이다.
+    // 이 경우 우리는 오직 깔끔한 그래픽 오버레이를 가질 것이다. OcrGraphic 객체를 통해서.
 
     private GraphicOverlay<OcrGraphic> graphicOverlay;
 
@@ -34,32 +46,29 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
         graphicOverlay = ocrGraphicOverlay;
     }
 
-    /**
-     * Called by the detector to deliver detection results.
-     * If your application called for it, this could be a place to check for
-     * equivalent detections by tracking TextBlocks that are similar in location and content from
-     * previous frames, or reduce noise by eliminating TextBlocks that have not persisted through
-     * multiple detections.
-     */
+    // TODO:  Once this implements Detector.Processor<TextBlock>, implement the abstract methods.
+    // TextBlcok을 탐지해서 가져오고, 프로세서가 탐지하는 각 text block에 대해 OcrGraphic 객체를 만들자.
+
     @Override
     public void receiveDetections(Detector.Detections<TextBlock> detections) {
         graphicOverlay.clear();
         SparseArray<TextBlock> items = detections.getDetectedItems();
-        for (int i = 0; i < items.size(); ++i) {
+        for(int i=0; i<items.size(); ++i) {
             TextBlock item = items.valueAt(i);
-            if (item != null && item.getValue() != null) {
-                Log.d("OcrDetectorProcessor", "Text detected! " + item.getValue());
+            if(item != null && item.getValue() != null) {
+                Log.d("Processor", "Text detected! " + item.getValue());
                 OcrGraphic graphic = new OcrGraphic(graphicOverlay, item);
                 graphicOverlay.add(graphic);
             }
         }
     }
 
-    /**
-     * Frees the resources associated with this detection processor.
-     */
     @Override
     public void release() {
         graphicOverlay.clear();
+
     }
+        // 이제 프로세서가 준비되었으므로 textRecognizer를 사용하도록 세팅하자.
+        // TextRecognizer로 돌아가 createCameraSource 메서드를 다시 정리한다.
+
 }

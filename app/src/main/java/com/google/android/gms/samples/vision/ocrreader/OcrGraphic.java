@@ -38,12 +38,12 @@ public class OcrGraphic extends GraphicOverlay.Graphic {
 
     private static Paint rectPaint;
     private static Paint textPaint;
-    private final TextBlock textBlock;
+    private final TextBlock text;
 
     OcrGraphic(GraphicOverlay overlay, TextBlock text) {
         super(overlay);
 
-        textBlock = text;
+        this.text = text;
 
         if (rectPaint == null) {
             rectPaint = new Paint();
@@ -70,7 +70,7 @@ public class OcrGraphic extends GraphicOverlay.Graphic {
     }
 
     public TextBlock getTextBlock() {
-        return textBlock;
+        return text;
     }
 
     /**
@@ -81,12 +81,8 @@ public class OcrGraphic extends GraphicOverlay.Graphic {
      * @return True if the provided point is contained within this graphic's bounding box.
      */
     public boolean contains(float x, float y) {
-        if (textBlock == null) {
-            return false;
-        }
-        RectF rect = new RectF(textBlock.getBoundingBox());
-        rect = translateRect(rect);
-        return rect.contains(x, y);
+        // TODO: 소리 넣는 기능을 위해 포인트를 누르는 기능을 추가할 때 추가.(지금은 필요 x)
+        return false;
     }
 
     /**
@@ -94,17 +90,24 @@ public class OcrGraphic extends GraphicOverlay.Graphic {
      */
     @Override
     public void draw(Canvas canvas) {
-        if (textBlock == null) {
+        // TODO: 캔버스에 텍스트를 그리는 방법
+        if(text == null) {
             return;
         }
 
-        // Draws the bounding box around the TextBlock.
-        RectF rect = new RectF(textBlock.getBoundingBox());
+        // TextBlock 주변에 바운딩 박스를 그린다
+        RectF rect = new RectF(text.getBoundingBox());
         rect = translateRect(rect);
         canvas.drawRect(rect, rectPaint);
 
-        // Break the text into multiple lines and draw each one according to its own bounding box.
-        List<? extends Text> textComponents = textBlock.getComponents();
+//        // 박스의 아래에 텍스트를 보낸다.
+//        canvas.drawText(text.getValue(), rect.left, rect.bottom, textPaint);
+
+        // 엔진이 TextBlock에서 인지되는 모든 텍스트를 한 문장에 넣기 때문이다. 여러 라인으로
+        // 문장이 쪼개어진 것을 볼 수 있다. 만약 문장을 완성한다면 매우 유용하지만 개별 텍스트 라인을 얻으려면 어떻게 해야 하는가
+        // 당신은 TextBlock을 getComponents를 호출해 얻을 수 있다. 그리고 각 라인을 돌며 이 안에 있는 텍스트의 값과 위치를 얻을 수 있다.
+
+        List<? extends Text> textComponents = text.getComponents();
         for(Text currentText : textComponents) {
             float left = translateX(currentText.getBoundingBox().left);
             float bottom = translateY(currentText.getBoundingBox().bottom);

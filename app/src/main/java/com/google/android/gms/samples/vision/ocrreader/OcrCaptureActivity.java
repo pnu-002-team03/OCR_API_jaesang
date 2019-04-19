@@ -44,11 +44,9 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.samples.vision.ocrreader.ui.camera.CameraSource;
 import com.google.android.gms.samples.vision.ocrreader.ui.camera.CameraSourcePreview;
 import com.google.android.gms.samples.vision.ocrreader.ui.camera.GraphicOverlay;
-import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
 import java.io.IOException;
-import java.util.Locale;
 
 /**
  * Activity for the Ocr Detecting app.  This app detects text and displays the value with the
@@ -111,20 +109,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
                 Snackbar.LENGTH_LONG)
                 .show();
 
-        // Set up the Text To Speech engine.
-        TextToSpeech.OnInitListener listener =
-                new TextToSpeech.OnInitListener() {
-                    @Override
-                    public void onInit(final int status) {
-                        if (status == TextToSpeech.SUCCESS) {
-                            Log.d("OnInitListener", "Text to speech engine started successfully.");
-                            tts.setLanguage(Locale.US);
-                        } else {
-                            Log.d("OnInitListener", "Error starting the text to speech engine.");
-                        }
-                    }
-                };
-        tts = new TextToSpeech(this.getApplicationContext(), listener);
+        // TODO: TextToSpeech 엔진을 통해 소리가 나도록 할 수 있다.
     }
 
     /**
@@ -180,48 +165,53 @@ public final class OcrCaptureActivity extends AppCompatActivity {
     private void createCameraSource(boolean autoFocus, boolean useFlash) {
         Context context = getApplicationContext();
 
-        // A text recognizer is created to find text.  An associated multi-processor instance
-        // is set to receive the text recognition results, track the text, and maintain
-        // graphics for each text block on screen.  The factory is used by the multi-processor to
-        // create a separate tracker instance for each text block.
+        //  TODO: TextRecognizer를 생성한다. -> textrecognizer는 발견 객체로 이미지를 처리하고 텍스트가 어떻게 나타나는지 결정한다.
+        //  TODO: 한번 초기화되면 textRecognizer는 이미지의 모든 타입 텍스트를 발견한다.
         TextRecognizer textRecognizer = new TextRecognizer.Builder(context).build();
+
+        // TODO: TextRecognizer 프로세서를 설정한다.
         textRecognizer.setProcessor(new OcrDetectorProcessor(graphicOverlay));
 
-        if (!textRecognizer.isOperational()) {
-            // Note: The first time that an app using a Vision API is installed on a
-            // device, GMS will download a native libraries to the device in order to do detection.
-            // Usually this completes before the app is run for the first time.  But if that
-            // download has not yet completed, then the above call will not detect any text,
-            // barcodes, or faces.
-            //
-            // isOperational() can be used to check if the required native libraries are currently
-            // available.  The detectors will automatically become operational once the library
-            // downloads complete on device.
-            Log.w(TAG, "Detector dependencies are not yet available.");
+        // TODO: TextRecognizer가 작동하는지 확인하는 코드
+        if(!textRecognizer.isOperational()) {
+            Log.w(TAG, "Detector dependencies are not yet available");
 
-            // Check for low storage.  If there is low storage, the native library will not be
-            // downloaded, so detection will not become operational.
+            // 저장 용량을 확인한다. 만약 저장공간이 적으면 navtive 라이브러리가 다운된다.
+            // 그래서 탐지가 작동되지 않을 것이다.
             IntentFilter lowstorageFilter = new IntentFilter(Intent.ACTION_DEVICE_STORAGE_LOW);
             boolean hasLowStorage = registerReceiver(null, lowstorageFilter) != null;
 
-            if (hasLowStorage) {
+            if(hasLowStorage) {
                 Toast.makeText(this, R.string.low_storage_error, Toast.LENGTH_LONG).show();
                 Log.w(TAG, getString(R.string.low_storage_error));
             }
         }
 
-        // Creates and starts the camera.  Note that this uses a higher resolution in comparison
-        // to other detection examples to enable the text recognizer to detect small pieces of text.
+        // TODO: TextRecognizer를 사용해서 카메라 소스를 만들자
+        // 이제 TextRecognizer가 작동하는걸 확인했다. 개별적 프레임을 확인해 이걸 사용할 수 있다.
+        // 우리는 카메라뷰에 있는 text를 생동감있게 볼 예쩡이다. 그러기 위해 CameraSource를 만들자.
+        // 이건 Vison 처리를 위해 미리 정의한 카메라 매니저이다. 아웃포커즈를 조율하고 해상도를 설정하자
+        // 작은 텍스트를 인식하는데 적합해 질 것이다. 만약 사용자가 텍스트의 더 큰 블럭을 본다면
+        // 더 낮은 해상도를 사용하라. 그러면 프레임을 더 빠르게 처리할 수 있을 것이다.
         cameraSource =
                 new CameraSource.Builder(getApplicationContext(), textRecognizer)
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
                 .setRequestedPreviewSize(1280, 1024)
-                .setRequestedFps(2.0f)
-                .setFlashMode(useFlash ? Camera.Parameters.FLASH_MODE_TORCH : null)
+                .setRequestedFps(15.0f)
+                .setFlashMode(useFlash? Camera.Parameters.FLASH_MODE_TORCH : null)
                 .setFocusMode(autoFocus ? Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO : null)
                 .build();
-    }
 
+        // CameraSource 는 구글 비전 패키지에 들어있다.
+    }
+    // TODO : TextRecognizer를 여기서 만들었지만 release를 하지 않았다. CameraSourcePreview에서 release를 부를때
+    // TODO : CameraSource가 나올 것이고 TextRecognizer가 나올 차례가 될 것이다. 그래서 여기서 CameraSource를 초기화하자
+    // release를 detector에서 부르는건 위험한데, 이건 native 컴포넌트를 싹 다 지우는 걸 필요로 하기 때문이다.
+    // 명백하게 text 인식을 완료하고나서 어플리케이션이 release를 하도록 하자.
+
+
+    // 여기까지 카메라 뷰를 작동하게 했다. 그러나 카메라에서 이미지 처리를 하기 위해 createCameraSource에서
+    // 마지막 TODO를 처리해야한다. Processor를 만들어 문자가 들어오면 그것을 발견하는 걸 처리하도록 하자.
     /**
      * Restarts the camera.
      */
@@ -282,8 +272,8 @@ public final class OcrCaptureActivity extends AppCompatActivity {
 
         if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "Camera permission granted - initialize the camera source");
-            // we have permission, so create the camerasource
-            boolean autoFocus = getIntent().getBooleanExtra(AutoFocus,true);
+            // We have permission, so create the camerasource
+            boolean autoFocus = getIntent().getBooleanExtra(AutoFocus,false);
             boolean useFlash = getIntent().getBooleanExtra(UseFlash, false);
             createCameraSource(autoFocus, useFlash);
             return;
@@ -339,23 +329,8 @@ public final class OcrCaptureActivity extends AppCompatActivity {
      * @return true if the tap was on a TextBlock
      */
     private boolean onTap(float rawX, float rawY) {
-        OcrGraphic graphic = graphicOverlay.getGraphicAtLocation(rawX, rawY);
-        TextBlock text = null;
-        if (graphic != null) {
-            text = graphic.getTextBlock();
-            if (text != null && text.getValue() != null) {
-                Log.d(TAG, "text data is being spoken! " + text.getValue());
-                // Speak the string.
-                tts.speak(text.getValue(), TextToSpeech.QUEUE_ADD, null, "DEFAULT");
-            }
-            else {
-                Log.d(TAG, "text data is null");
-            }
-        }
-        else {
-            Log.d(TAG,"no text detected");
-        }
-        return text != null;
+        // TODO: 여기서 안드로이드 모니터를 통해 당신이 기대하는 대로 텍스트가 눌려질 때를 검사, 빌드할 수 있다.
+        return false;
     }
 
     private class CaptureGestureListener extends GestureDetector.SimpleOnGestureListener {
