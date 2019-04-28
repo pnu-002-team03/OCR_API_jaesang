@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="C:\experiments\practice\android-vision-master\android-vision-master\visionSamples\ocr-codelab\ocr-reader-start\app\src\main\jniLibs"/></dataSet><dataSet config="debug"><source path="C:\experiments\practice\android-vision-master\android-vision-master\visionSamples\ocr-codelab\ocr-reader-start\app\src\debug\jniLibs"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="C:\experiments\experiment_junyoung\OCR_API_jaesang-master\OCR_API_jaesang-master\app\src\main\jniLibs"/></dataSet><dataSet config="debug"><source path="C:\experiments\experiment_junyoung\OCR_API_jaesang-master\OCR_API_jaesang-master\app\src\debug\jniLibs"/></dataSet></merger>

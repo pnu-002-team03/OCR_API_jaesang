@@ -1,17 +1,17 @@
 #Internal package file, do not edit.
-#Fri Apr 19 18:11:33 KST 2019
-2.base=C\:\\experiments\\practice\\android-vision-master\\android-vision-master\\visionSamples\\ocr-codelab\\ocr-reader-start\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\11
+#Wed Apr 24 19:10:35 KST 2019
+2.base=C\:\\experiments\\experiment_junyoung\\OCR_API_jaesang-master\\OCR_API_jaesang-master\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\17
 5.set=DEX
 0.path=classes.dex
 2.baseType=DIRECTORY
-3.base=C\:\\experiments\\practice\\android-vision-master\\android-vision-master\\visionSamples\\ocr-codelab\\ocr-reader-start\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\14
+3.base=C\:\\experiments\\experiment_junyoung\\OCR_API_jaesang-master\\OCR_API_jaesang-master\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\13
 2.set=DEX
 1.path=classes.dex
-4.base=C\:\\experiments\\practice\\android-vision-master\\android-vision-master\\visionSamples\\ocr-codelab\\ocr-reader-start\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\12
+4.base=C\:\\experiments\\experiment_junyoung\\OCR_API_jaesang-master\\OCR_API_jaesang-master\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\16
 count=6
 5.baseType=DIRECTORY
 2.path=classes.dex
-5.base=C\:\\experiments\\practice\\android-vision-master\\android-vision-master\\visionSamples\\ocr-codelab\\ocr-reader-start\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\15
+5.base=C\:\\experiments\\experiment_junyoung\\OCR_API_jaesang-master\\OCR_API_jaesang-master\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\15
 4.set=DEX
 3.path=classes.dex
 3.baseType=DIRECTORY
@@ -19,9 +19,9 @@ count=6
 4.path=classes.dex
 1.baseType=DIRECTORY
 5.path=classes.dex
-0.base=C\:\\experiments\\practice\\android-vision-master\\android-vision-master\\visionSamples\\ocr-codelab\\ocr-reader-start\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\16
+0.base=C\:\\experiments\\experiment_junyoung\\OCR_API_jaesang-master\\OCR_API_jaesang-master\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\12
 0.baseType=DIRECTORY
 3.set=DEX
-1.base=C\:\\experiments\\practice\\android-vision-master\\android-vision-master\\visionSamples\\ocr-codelab\\ocr-reader-start\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\13
+1.base=C\:\\experiments\\experiment_junyoung\\OCR_API_jaesang-master\\OCR_API_jaesang-master\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\14
 4.baseType=DIRECTORY
 0.set=DEX

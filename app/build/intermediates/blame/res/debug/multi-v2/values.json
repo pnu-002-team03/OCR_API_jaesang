@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\experiments\\practice\\android-vision-master\\android-vision-master\\visionSamples\\ocr-codelab\\ocr-reader-start\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
+            "outputFile": "C:\\experiments\\experiment_junyoung\\OCR_API_jaesang-master\\OCR_API_jaesang-master\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
             "map": [
                 {
-                    "source": "C:\\experiments\\practice\\android-vision-master\\android-vision-master\\visionSamples\\ocr-codelab\\ocr-reader-start\\app\\src\\main\\res\\values\\strings.xml",
+                    "source": "C:\\experiments\\experiment_junyoung\\OCR_API_jaesang-master\\OCR_API_jaesang-master\\app\\src\\main\\res\\values\\strings.xml",
                     "from": {
                         "startLines": "9,5,4,13,12,7,11,2,3,8,6,10",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
@@ -76,23 +76,6 @@
                     }
                 },
                 {
-                    "source": "C:\\experiments\\practice\\android-vision-master\\android-vision-master\\visionSamples\\ocr-codelab\\ocr-reader-start\\app\\src\\main\\res\\values\\dimens.xml",
-                    "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "88,146",
-                        "endColumns": "57,55",
-                        "endOffsets": "141,197"
-                    },
-                    "to": {
-                        "startLines": "554,555",
-                        "startColumns": "4,4",
-                        "startOffsets": "46661,46719",
-                        "endColumns": "57,55",
-                        "endOffsets": "46714,46770"
-                    }
-                },
-                {
                     "source": "C:\\Users\\jaesang\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-15.0.1.aar\\3e26d341a51d5b5aa0d4542498938e72\\res\\values\\values.xml",
                     "from": {
                         "startLines": "4,7",
@@ -141,6 +124,23 @@
                         "startOffsets": "49671,49730,49778,50445,50520,50596,52526",
                         "endColumns": "58,47,55,74,75,71,65",
                         "endOffsets": "49725,49773,49829,50515,50591,50663,52587"
+                    }
+                },
+                {
+                    "source": "C:\\experiments\\experiment_junyoung\\OCR_API_jaesang-master\\OCR_API_jaesang-master\\app\\src\\main\\res\\values\\dimens.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "88,146",
+                        "endColumns": "57,55",
+                        "endOffsets": "141,197"
+                    },
+                    "to": {
+                        "startLines": "554,555",
+                        "startColumns": "4,4",
+                        "startOffsets": "46661,46719",
+                        "endColumns": "57,55",
+                        "endOffsets": "46714,46770"
                     }
                 },
                 {

@@ -15,6 +15,8 @@
  */
 package com.google.android.gms.samples.vision.ocrreader;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -35,6 +37,10 @@ import com.google.android.gms.vision.text.TextBlock;
         // Processor는 사용가능 할때마다 탐색을 처리할 것이다.
 public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
 
+
+
+
+
     // 인터페이스가 두가지 메서드를 implement 시키도록 한다.
     // 첫째는 receiveDetections이다. 이는 사용가능하면 TextRecognizer로부터 TextBlcok을 받는 것이다.
     // 둘째는 release이다. TextRecognizer가 처리되면 자원을 없앨 것이다.
@@ -51,15 +57,26 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
 
     @Override
     public void receiveDetections(Detector.Detections<TextBlock> detections) {
+        MySQLiteOpenHelper helper;
+        String dbName = "st_file.db";
+        int dbVersion = 1; // 데이터베이스 버전
+        SQLiteDatabase db;
+        String tag = "SQLite"; // Log 에 사용할 tag
+
+        //helper = new MySQLiteOpenHelper(this ,dbName,null,dbVersion);
+
+
         graphicOverlay.clear();
         SparseArray<TextBlock> items = detections.getDetectedItems();
         for(int i=0; i<items.size(); ++i) {
             TextBlock item = items.valueAt(i);
             if(item != null && item.getValue() != null) {
                 Log.d("Processor", "Text detected! " + item.getValue());
-                OcrGraphic graphic = new OcrGraphic(graphicOverlay, item);
-                graphicOverlay.add(graphic);
-            }
+
+
+            OcrGraphic graphic = new OcrGraphic(graphicOverlay, item);
+            graphicOverlay.add(graphic);
+        }
         }
     }
 

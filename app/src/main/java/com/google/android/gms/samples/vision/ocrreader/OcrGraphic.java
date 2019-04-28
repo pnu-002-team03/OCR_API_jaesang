@@ -81,8 +81,8 @@ public class OcrGraphic extends GraphicOverlay.Graphic {
      * @return True if the provided point is contained within this graphic's bounding box.
      */
     public boolean contains(float x, float y) {
-        // TODO: 소리 넣는 기능을 위해 포인트를 누르는 기능을 추가할 때 추가.(지금은 필요 x)
-        return false;
+            // TODO: 소리 넣는 기능을 위해 포인트를 누르는 기능을 추가할 때 추가.(지금은 필요 x)
+            return false;
     }
 
     /**

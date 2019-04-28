@@ -18,6 +18,7 @@ package com.google.android.gms.samples.vision.ocrreader.ui.camera;
 import android.Manifest;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Camera;
 import android.support.annotation.RequiresPermission;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -37,9 +38,12 @@ public class CameraSourcePreview extends ViewGroup {
     private boolean startRequested;
     private boolean surfaceAvailable;
     private CameraSource cameraSource;
-
+    private SurfaceHolder holder;
     private GraphicOverlay overlay;
 
+
+
+    // 카메라의 프리뷰를 보여주는 클래스 -> 현재 액티비티 위에서 작동을 직접 볼 수 있는 클래스
     public CameraSourcePreview(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
@@ -49,6 +53,9 @@ public class CameraSourcePreview extends ViewGroup {
         surfaceView = new SurfaceView(context);
         surfaceView.getHolder().addCallback(new SurfaceCallback());
         addView(surfaceView);
+
+        //SurfaceHolder.Callback을 설치해서 surface가 만들어지고 사라지는 것을 알게하자 -> preview화면을 받아서 넘긴다
+
     }
 
     @RequiresPermission(Manifest.permission.CAMERA)

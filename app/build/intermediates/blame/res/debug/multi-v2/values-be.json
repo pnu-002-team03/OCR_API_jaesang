@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\experiments\\practice\\android-vision-master\\android-vision-master\\visionSamples\\ocr-codelab\\ocr-reader-start\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-be\\values-be.xml",
+            "outputFile": "C:\\experiments\\experiment_junyoung\\OCR_API_jaesang-master\\OCR_API_jaesang-master\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-be\\values-be.xml",
             "map": [
                 {
                     "source": "C:\\Users\\jaesang\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.1.1.aar\\733465f192de0a9cc9495d1373a99572\\res\\values-be\\values-be.xml",

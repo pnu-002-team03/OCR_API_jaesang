@@ -1,4 +1,4 @@
-#Fri Apr 19 18:11:33 KST 2019
-base.0=C\:\\experiments\\practice\\android-vision-master\\android-vision-master\\visionSamples\\ocr-codelab\\ocr-reader-start\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\7
+#Wed Apr 24 19:26:14 KST 2019
+base.0=C\:\\experiments\\experiment_junyoung\\OCR_API_jaesang-master\\OCR_API_jaesang-master\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\8
 path.0=classes.dex
 renamed.0=classes.dex

@@ -25,6 +25,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -37,6 +39,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -75,8 +78,14 @@ public final class OcrCaptureActivity extends AppCompatActivity {
     private ScaleGestureDetector scaleGestureDetector;
     private GestureDetector gestureDetector;
 
-    // A TextToSpeech engine for speaking a String value.
-    private TextToSpeech tts;
+    int takePicture = 0;
+    private MySQLiteOpenHelper helper;
+    String dbName = "st_file.db";
+    int dbVersion = 1; // 데이터베이스 버전
+    private SQLiteDatabase db;
+    String tag = "SQLite"; // Log 에 사용할 tag
+    Button btn;
+
 
     /**
      * Initializes the UI and creates the detector pipeline.
@@ -86,6 +95,32 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         super.onCreate(bundle);
         setContentView(R.layout.ocr_capture);
 
+
+        helper = new MySQLiteOpenHelper(
+                this,  // 현재 화면의 제어권자
+                dbName,// db 이름
+                null,  // 커서팩토리-null : 표준커서가 사용됨
+                dbVersion);       // 버전
+
+        try {
+//         // 데이터베이스 객체를 얻어오는 다른 간단한 방법
+//         db = openOrCreateDatabase(dbName,  // 데이터베이스파일 이름
+//                          Context.MODE_PRIVATE, // 파일 모드
+//                          null);    // 커서 팩토리
+//
+//         String sql = "create table mytable(id integer primary key autoincrement, name text);";
+//        db.execSQL(sql);
+
+            db = helper.getWritableDatabase(); // 읽고 쓸수 있는 DB
+            //db = helper.getReadableDatabase(); // 읽기 전용 DB select문
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+            Log.e(tag, "데이터베이스를 얻어올 수 없음");
+            finish(); // 액티비티 종료
+        }
+
+        // 버튼 작동, preview, graphic 오버레이
+        btn = findViewById(R.id.btn_picture);
         preview = (CameraSourcePreview) findViewById(R.id.preview);
         graphicOverlay = (GraphicOverlay<OcrGraphic>) findViewById(R.id.graphicOverlay);
 
@@ -110,7 +145,9 @@ public final class OcrCaptureActivity extends AppCompatActivity {
                 .show();
 
         // TODO: TextToSpeech 엔진을 통해 소리가 나도록 할 수 있다.
-    }
+
+
+}
 
     /**
      * Handles the requesting of the camera permission.  This includes
@@ -203,6 +240,21 @@ public final class OcrCaptureActivity extends AppCompatActivity {
                 .build();
 
         // CameraSource 는 구글 비전 패키지에 들어있다.
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(takePicture == 0) {
+                    takePicture++;
+                    preview.stop();
+                }
+                else {
+                    takePicture--;
+                    startCameraSource();
+                }
+            }
+        });
     }
     // TODO : TextRecognizer를 여기서 만들었지만 release를 하지 않았다. CameraSourcePreview에서 release를 부를때
     // TODO : CameraSource가 나올 것이고 TextRecognizer가 나올 차례가 될 것이다. 그래서 여기서 CameraSource를 초기화하자
@@ -239,6 +291,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         if (preview != null) {
             preview.release();
         }
